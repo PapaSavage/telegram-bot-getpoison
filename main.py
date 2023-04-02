@@ -4,6 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import asyncio
 from config import BOT_TOKEN
 
+curs = 12.9
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -27,7 +28,7 @@ async def start_command(message: types.Message):
     firstname = message.from_user.first_name
     await bot.send_message(message.from_user.id,
                            text=(
-                               'Добро пожаловать в Get Poison'))
+                               'Добро пожаловать в Get Poison. Введите стоимость '))
 
 if __name__ == "__main__":
     executor.start_polling(
