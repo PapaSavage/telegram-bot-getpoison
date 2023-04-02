@@ -18,7 +18,7 @@ async def start_command(message: types.Message):
     await bot.send_message(message.from_user.id,
                            text=(
                                'Добро пожаловать'))
-a = 1
+
 
 if __name__ == "__main__":
     executor.start_polling(
