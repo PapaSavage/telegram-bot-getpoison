@@ -19,7 +19,8 @@ dostavka = 1300
 
 
 @dp.message_handler(commands=["start"], state="*")
-async def start_command(message: types.Message):
+async def start_command(message: types.Message, state: FSMContext):
+    await state.finish()
     global user_id
     user_id = message.from_user.id
     firstname = message.from_user.first_name
@@ -41,14 +42,13 @@ async def rasshet_itog(message: types.Message):
 <b>Готов оформить заказ или есть вопросы?</b>                        
 
 Напиши нашему менеджеру @Getpoizon_manager
-
-При 
+ 
 """, parse_mode=types.ParseMode.HTML)
 
 
-@dp.message_handler(lambda message: message.text == "Сделать заказ", state="*")
-async def rasshet_itog(message: types.Message):
-    await message.answer("Ок")
+# @dp.message_handler(lambda message: message.text == "Сделать заказ", state="*")
+# async def rasshet_itog(message: types.Message):
+#     await message.answer("Ок")
 
 
 @dp.message_handler(lambda message: message.text == "Расcчитать стоимость", state="*")
@@ -84,6 +84,11 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 Доставка  {str(dostavka)}₽
 Комиссия нашего сервиса - {str(nacenka)}₽"""))
             await state.finish()
+
+
+@dp.message_handler(content_types=['text'])
+async def start_command(message: types.Message, state: FSMContext):
+    await message.answer("Ок")
 
 if __name__ == "__main__":
     executor.start_polling(
