@@ -19,7 +19,7 @@ async def start_command(message: types.Message):
                            text=(
                                'Добро пожаловать'))
 
-
+a = 1
 if __name__ == "__main__":
     executor.start_polling(
         dispatcher=dp, skip_updates=True)
