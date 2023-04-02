@@ -77,7 +77,12 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
             itog = stoim_cny * curs + nacenka + dostavka
             await bot.send_message(message.from_user.id,
                                    text=(
-                                       'Сумма вашего заказа  = ' + str(itog)))
+                                       f"""
+                                       Итоговая стоимость: {str(itog)}₽\n 
+Стоимость включает: \n
+Курс ¥ - {str(curs)}₽\n
+Доставка  {str(dostavka)}₽\n
+Комиссия нашего сервиса - {str(nacenka)}₽"""))
             await state.finish()
 
 if __name__ == "__main__":
