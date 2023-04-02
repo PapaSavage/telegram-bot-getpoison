@@ -55,7 +55,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
             await bot.send_message(message.from_user.id,
                                 text=(
                                     'Сумма вашего заказа  = ' + str(itog)))
-    await state.finish()
+            await state.finish()
 
 if __name__ == "__main__":
     executor.start_polling(
