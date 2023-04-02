@@ -9,7 +9,6 @@ class keyboard(ReplyKeyboardMarkup):
     b3_start = KeyboardButton("Заказать")
     b4_start = KeyboardButton("Помощь")
     b5_start = KeyboardButton("Связаться с оператором")
-    b6_start = KeyboardButton("Сделать заказ")
-    b7_start = KeyboardButton("Почему нам можно доверять?")
+    b6_start = KeyboardButton("Почему нам можно доверять?")
     kb_start.add(b1_start, b2_start, b3_start,
-                 b4_start, b5_start, b6_start, b7_start)
+                 b4_start, b5_start, b6_start)

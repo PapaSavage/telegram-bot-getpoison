@@ -17,14 +17,14 @@ curs = 12.9
 nacenka = 1500
 dostavka = 1300
 
+
 @dp.message_handler(commands=["start"], state="*")
 async def start_command(message: types.Message):
     global user_id
     user_id = message.from_user.id
     firstname = message.from_user.first_name
-    await message.answer_photo(message.from_user.id,
-                               text=(open("src/img/Shapka.jpg", "rb"),
-                                     f"""
+    await message.answer_photo(open('src/img/Shapka.jpg', "rb"),
+                               f"""
 🤠 Нихао, {firstname}!
 Мы прямые посредники Poizon.
 У нас свой склад в Китае, поэтому мы можем давать минимальную цену🔥
@@ -32,18 +32,18 @@ async def start_command(message: types.Message):
 Контакт для связи: @Getpoizon_manager
 
 <b><i>❗️Только оригинальная продукция</i></b>
-                               """), reply_markup=keyboard.kb_start, parse_mode=types.ParseMode.HTML)
+                               """, reply_markup=keyboard.kb_start, parse_mode=types.ParseMode.HTML)
 
 
 @dp.message_handler(lambda message: message.text == "Связаться с оператором", state="*")
 async def rasshet_itog(message: types.Message):
     await message.answer(f"""
-*Готов оформить заказ или есть вопросы?*                        
+<b>Готов оформить заказ или есть вопросы?</b>                        
 
 Напиши нашему менеджеру @Getpoizon_manager
 
 При 
-                         """, parse_mode=types.ParseMode.MARKDOWN)
+""", parse_mode=types.ParseMode.HTML)
 
 
 @dp.message_handler(lambda message: message.text == "Сделать заказ", state="*")
@@ -68,16 +68,16 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
         data['stoim'] = message.text
         stoim = data['stoim']
         s = ''
-        stoim_cny,s = await checker(stoim, s)
+        stoim_cny, s = await checker(stoim, s)
         if stoim_cny == -1:
             await bot.send_message(message.from_user.id,
-                               text=(s))
-            await Start.schet.set()    
-        else:                       
+                                   text=(s))
+            await Start.schet.set()
+        else:
             itog = stoim_cny * curs + nacenka + dostavka
             await bot.send_message(message.from_user.id,
-                                text=(
-                                    'Сумма вашего заказа  = ' + str(itog)))
+                                   text=(
+                                       'Сумма вашего заказа  = ' + str(itog)))
             await state.finish()
 
 if __name__ == "__main__":
