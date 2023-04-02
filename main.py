@@ -78,10 +78,10 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
             await bot.send_message(message.from_user.id,
                                    text=(
                                        f"""
-                                       Итоговая стоимость: {str(itog)}₽\n 
-Стоимость включает: \n
-Курс ¥ - {str(curs)}₽\n
-Доставка  {str(dostavka)}₽\n
+                                       Итоговая стоимость: {str(round(itog))}₽\n
+Стоимость включает: 
+Курс ¥ - {str(curs)}₽
+Доставка  {str(dostavka)}₽
 Комиссия нашего сервиса - {str(nacenka)}₽"""))
             await state.finish()
 
