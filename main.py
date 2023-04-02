@@ -20,9 +20,33 @@ async def start_command(message: types.Message):
     global user_id
     user_id = message.from_user.id
     firstname = message.from_user.first_name
-    await bot.send_message(message.from_user.id,
-                           text=(
-                               'Добро пожаловать в Get Poison'), reply_markup=keyboard.kb_start)
+    await message.answer_photo(message.from_user.id,
+                               text=(open("src/img/Shapka.jpg", "rb"),
+                                     f"""
+🤠 Нихао, {firstname}!
+Мы прямые посредники Poizon.
+У нас свой склад в Китае, поэтому мы можем давать минимальную цену🔥
+И ещё очень много плюшек!
+Контакт для связи: @Getpoizon_manager
+
+<b><i>❗️Только оригинальная продукция</i></b>
+                               """), reply_markup=keyboard.kb_start, parse_mode=types.ParseMode.HTML)
+
+
+@dp.message_handler(lambda message: message.text == "Связаться с оператором", state="*")
+async def rasshet_itog(message: types.Message):
+    await message.answer(f"""
+*Готов оформить заказ или есть вопросы?*                        
+
+Напиши нашему менеджеру @Getpoizon_manager
+
+При 
+                         """, parse_mode=types.ParseMode.MARKDOWN)
+
+
+@dp.message_handler(lambda message: message.text == "Сделать заказ", state="*")
+async def rasshet_itog(message: types.Message):
+    await message.answer("Ок")
 
 
 @dp.message_handler(lambda message: message.text == "Расcчитать стоимость", state="*")
@@ -34,7 +58,6 @@ async def rasshet(message: types.Message):
                            text=(
                                'Добро пожаловать в Get Poison. Введите стоимость '))
     await Start.schet.set()
-
 
 
 @dp.message_handler(state=Start.schet)
