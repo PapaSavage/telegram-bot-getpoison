@@ -46,6 +46,25 @@ async def rasshet_itog(message: types.Message):
 """, parse_mode=types.ParseMode.HTML)
 
 
+@dp.message_handler(lambda message: message.text == "Заказать", state="*")
+async def rasshet_itog(message: types.Message):
+    await message.answer(f"""
+<b>Готов оформить заказ или есть вопросы?</b>                        
+
+Напиши нашему менеджеру @Getpoizon_manager
+ 
+""", parse_mode=types.ParseMode.HTML)
+
+
+@dp.message_handler(lambda message: message.text == "Почему нам можно доверять?", state="*")
+async def rasshet_itog(message: types.Message):
+    await message.answer(f"""
+<b>Готов оформить заказ или есть вопросы?</b>                        
+
+Напиши нашему менеджеру @Getpoizon_manager
+ 
+""", parse_mode=types.ParseMode.HTML)
+
 # @dp.message_handler(lambda message: message.text == "Сделать заказ", state="*")
 # async def rasshet_itog(message: types.Message):
 #     await message.answer("Ок")
