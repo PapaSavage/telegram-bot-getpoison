@@ -340,7 +340,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          f"На данный момент наценка стоимости товара больше 1500 юаней = {Admin.nacenka5}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
-    await Start.smenanacenki5.set()
+    await Start.privet.set()
 
 
 @dp.message_handler(state=Start.smenanacenki5)
