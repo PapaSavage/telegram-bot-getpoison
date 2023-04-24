@@ -1,17 +1,12 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
 
-class keyboard(ReplyKeyboardMarkup):
+class StartKeyboard(ReplyKeyboardMarkup):
     kb_start = ReplyKeyboardMarkup(resize_keyboard=True,
                                    one_time_keyboard=True, row_width=2)
-    b1_start = KeyboardButton("Расcчитать стоимость")
-    b2_start = KeyboardButton("Полезные ссылки")
-    b3_start = KeyboardButton("Заказать")
-    b4_start = KeyboardButton("Помощь")
-    b5_start = KeyboardButton("Связаться с оператором")
-    b6_start = KeyboardButton("Почему нам можно доверять?")
-    kb_start.add(b1_start, b2_start, b3_start,
-                 b4_start, b5_start, b6_start)
+    b1_start = KeyboardButton("Главная")
+
+    kb_start.add(b1_start)
 
 
 class inlinekeyboard(InlineKeyboardMarkup):
@@ -45,3 +40,11 @@ class Rasschet_Keyboard(InlineKeyboardMarkup):
     inline_b3_rasschet = InlineKeyboardButton("Главная", callback_data='main')
     inline_rasschet.add(inline_b1_rasschet,
                         inline_b2_rasschet, inline_b3_rasschet)
+
+
+class ToMain(InlineKeyboardMarkup):
+    inline_main = InlineKeyboardMarkup(resize_keyboard=True,
+                                       one_time_keyboard=True)
+
+    inline = InlineKeyboardButton("Главная", callback_data='main')
+    inline_main.add(inline)

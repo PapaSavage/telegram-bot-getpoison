@@ -4,9 +4,12 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton,  InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 from config import BOT_TOKEN
-from keyboard import inlinekeyboard, Rasschet_Keyboard
+from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard
 from states import Start
 from checker import checker
+
+from contextlib import suppress
+from aiogram.utils.exceptions import MessageCantBeDeleted, MessageToDeleteNotFound
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -22,16 +25,45 @@ nacenka5 = 3000
 dostavka = 1300
 
 
+async def delete_message(message: types.Message, seconds: int = 0):
+    await asyncio.sleep(seconds)
+
+    await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+
+    seconds += 3600
+
+    await asyncio.sleep(seconds)
+    with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
+        await message.delete()
+
+
 @dp.callback_query_handler(text="main")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_photo(callback.from_user.id, open('src/img/Shapka.jpg', "rb"),
-                         f"""
-🤠Нихао, Что можем сделать для тебя?
+    await bot.edit_message_reply_markup(callback.message.chat.id, callback.message.message_id, reply_markup=inlinekeyboard.inline_start)
+
+#     await bot.send_photo(callback.from_user.id, open('src/img/Shapka.jpg', "rb"),
+#                          f"""
+# 🤠Нихао, Что можем сделать для тебя?
+#                                """, reply_markup=inlinekeyboard.inline_start, parse_mode=types.ParseMode.HTML)
+
+
+@dp.message_handler(commands=["start"])
+async def start_command(message: types.Message, state: FSMContext):
+    await state.finish()
+    global user_id
+    user_id = message.from_user.id
+    firstname = message.from_user.first_name
+    await message.answer_photo(open('src/img/Shapka.jpg', "rb"),
+                               f"""
+🤠 Нихао, {firstname}!
+Добро пожаловать в нашу команду GET POIZON
+
+Что сделать для тебя?
                                """, reply_markup=inlinekeyboard.inline_start, parse_mode=types.ParseMode.HTML)
 
 
-@ dp.message_handler(commands=["start"])
+@dp.message_handler(lambda message: message.text == "Главная")
 async def start_command(message: types.Message, state: FSMContext):
     await state.finish()
     global user_id
@@ -82,9 +114,8 @@ async def rasshet_itog(message: types.Message):
 
 @ dp.callback_query_handler(text="calculate")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
-
-    await bot.send_photo(callback.from_user.id, open('src/img/Shapka.jpg', "rb"),
-                         caption=(
+    message = await bot.send_photo(callback.from_user.id, open('src/img/Shapka.jpg', "rb"),
+                                   caption=(
         ''' 
 Введите цену на товар в <b>ЮАНЯХ</b>🇨🇳
 и бот покажет цену с учётом доставки до склада в Москве
@@ -95,29 +126,31 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
                                '''), parse_mode=types.ParseMode.HTML)
     await Start.schet.set()
+    await asyncio.create_task(await delete_message(message, 3600))
 
 
 @dp.callback_query_handler(text="order")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
                     💎 Оформить заказ. 
 
 Для заказа свяжитесь с менеджером, предоставьте фото товара и укажите ваш размер.
 
 @Getpoizon_manager
 
-                               '''), parse_mode=types.ParseMode.HTML)
+                               '''), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
+    await delete_message(message, 3600)
 
 
 @dp.callback_query_handler(text="scum")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
                     Про скам🙈 
 
 Друзья, прочтите всё внимательно до конца, это всё <b>очень важно</b>.
@@ -132,18 +165,20 @@ https://t.me/alkkza
 https://t.me/snimatos
 <b>ОСТАЛЬНЫЕ ВСЕ - МОШЕННИКИ!</b>
 
-                               '''), parse_mode=types.ParseMode.HTML)
+                               '''), reply_markup=ToMain.inline_main,  parse_mode=types.ParseMode.HTML)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="course")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
                     Про курс 💹
 
 Почему у нас такой курс юаня?🇨🇳
+
 Если вы задались таким вопросом, значит вы зашли на сайт Центробанка РФ и посмотрели официальный курс и увидели, что он отличается от нашего примерно на 2 рубля
 (специально не приводим точных цифр, т.к. ситуация меняется каждый день)
 
@@ -163,52 +198,60 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
 Мы не знаем также как и не знаете вы. Всем клиентам(хоть на 100 юаней, хоть на 100 000 юаней) мы советуем не ждать завтра, потому что завтра в большинстве случаев хуже. В таком мире живем.
 
-                               '''), parse_mode=types.ParseMode.HTML)
+                               '''), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
+
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="reviews")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
                     ⭐️Отзывы
 
 Здесь все отзывы, которые оставили клиенты, кто заказывал через телеграм: https://t.me/poizonget
 
 Большая часть отзывов на авито: https://www.avito.ru/user/640af7bb44be68239d05095eef17bd33/profile?src=sharing
-                               '''), parse_mode=types.ParseMode.HTML)
+                               '''), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
+    # await asyncio.create_task(await delete_message(message, 60))
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="instruction")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
     🌍 Инструкция по POIZON 
 
 https://youtu.be/CDZ99F9sqoA
-                               '''), parse_mode=types.ParseMode.HTML)
+                               '''), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
+
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="commission")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
     🌚 Наша комиссия, курс 
 
 Комиссия❇️
 Рассчитывается <i>каждому индивидуально</i>, потому что комиссия зависит от <i>цены товара</i> и от <i>категории</i>.
+
 Если цена товара в юанях меньше 200 - 500р
 Если больше 1000 юаней  - 2000руб
 Если больше 1500 юаней  - 2500р
 Если больше 2000 юаней  - 3000р
 
 Курс: меняется каждый день, для уточнения курса свяжитесь с менеджером @getpoizon_manager
-                               '''), parse_mode=types.ParseMode.HTML)
+                               '''), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="partner")
@@ -216,17 +259,19 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     # await message.edit_text("Так")
 
-    await bot.send_message(callback.from_user.id,
-                           text=(
-                               '''
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         '''
 
-    ⭕️ Оптовые заказы и сотрудничество с нами
+⭕️ Оптовые заказы и сотрудничество с нами
+    
+Каждый случай рассматривается индивидуально, всё зависит от объёмов и частоты заказов.
+Опт идёт от 5 пар.
 
-    Каждый случай рассматривается индивидуально, всё зависит от объёмов и частоты заказов.
-    Опт идёт от 5 пар.
+Пишите: @Getpoizon_manager
+                                   '''), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    Пишите: @Getpoizon_manager
-                                   '''), parse_mode=types.ParseMode.HTML)
+    await delete_message(message, 60)
 
 
 @dp.message_handler(state=Start.schet)
@@ -263,6 +308,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 async def start_command(message: types.Message, state: FSMContext):
     await message.answer("Ок")
 
+
 if __name__ == "__main__":
     executor.start_polling(
-        dispatcher=dp, skip_updates=True)
+        dispatcher=dp, skip_updates=True, reply_markup=StartKeyboard.kb_start)
