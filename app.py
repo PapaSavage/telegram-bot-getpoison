@@ -182,7 +182,7 @@ async def fault(message: types.Message, state: FSMContext):
         await fault.delete()
 
 
-@dp.callback_query_handler(text="Admin", state="*")
+@dp.callback_query_handler(lambda message: message.text == "Admin")
 async def adminka(callback: types.CallbackQuery, state=FSMContext):
     bot.send_message(callback.from_user.id, """Приветствую вас в настройках бота
                      Выберите то, что хотите отредактировать""", reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
@@ -201,7 +201,21 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
+                                         f"На данный момент курс равен = {Admin.curs}, введите желанный курс, для записи числа с дробью используйте точку. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenacursa.set()
+
+
+@dp.message_handler(state=Start.smenacursa)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data[''] = message.text
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
+
+        await delete_message(message, 60)
+        await state.finish()
 
 
 if __name__ == "__main__":
