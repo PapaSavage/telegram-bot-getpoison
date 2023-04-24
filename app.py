@@ -14,7 +14,11 @@ loop = asyncio.get_event_loop()
 
 
 curs = 12.9
-nacenka = 1000
+nacenka1 = 500
+nacenka2 = 1000
+nacenka3 = 2000
+nacenka4 = 2500
+nacenka5 = 3000
 dostavka = 1300
 
 
@@ -113,15 +117,21 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
                                    text=(s))
             await Start.schet.set()
         else:
-            itog = stoim_cny * curs + nacenka + dostavka
+            if  stoim_cny <= 200:
+                itog = stoim_cny * curs + nacenka1
+            elif stoim_cny <= 1000:
+                itog = stoim_cny * curs + nacenka2
+            elif stoim_cny <= 1500:
+                itog = stoim_cny * curs + nacenka3
+            elif stoim_cny <= 2000:
+                itog = stoim_cny * curs + nacenka4
+            else:
+                itog = stoim_cny * curs + nacenka5
             await bot.send_message(message.from_user.id,
                                    text=(
                                        f"""
-                                       Итоговая стоимость: {str(round(itog))}₽\n
-Стоимость включает: 
-Курс ¥ - {str(curs)}₽
-Доставка  {str(dostavka)}₽
-Комиссия нашего сервиса - {str(nacenka)}₽"""), reply_markup=Rasschet_Keyboard.inline_rasschet)
+                                       Итого {str(round(itog))}₽ без учёта доставки до Москвы.\n 
+<b>СТОИМОСТЬ ТОВАРА ПРИМЕРНАЯ, ТОЧНАЯ ЦЕНА УЗНАЁТСЯ У МЕНЕДЖЕРА ПРИ ЗАКАЗЕ<b/>"""), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
             await state.finish()
 
 
