@@ -357,6 +357,52 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
         await state.finish()
 
 
+@dp.callback_query_handler(text="Сообщение перед расчетом")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"""На данный момент текст сообщения перед расчетом:\n '{Admin.message_rasschet}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_rasschet.set()
+
+
+@dp.message_handler(state=Start.smena_rasschet)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = str(message.text)
+
+        Admin.message_rasschet = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена текста на {Admin.message_rasschet}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+
+@dp.callback_query_handler(text="Оформить заказ")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"""На данный момент текст оформления заказа:\n '{Admin.message_order}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_order.set()
+
+
+@dp.message_handler(state=Start.smena_order)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = str(message.text)
+
+        Admin.message_order = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена текста на {Admin.message_order}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
 
 @dp.message_handler(content_types=['text'])
 async def fault(message: types.Message, state: FSMContext):
