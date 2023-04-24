@@ -22,20 +22,20 @@ loop = asyncio.get_event_loop()
 
 async def delete_message(message: types.Message, seconds: int = 0):
     pass
-    # Admin.prev_message.append(message)
-    # if len(Admin.prev_message) > 1:
-    #     message = Admin.prev_message[0]
-    #     await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-    #     Admin.prev_message.pop(0)
-    # # await asyncio.sleep(seconds)
-
-    # # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-
-    # seconds += 900
-
+    Admin.prev_message.append(message)
+    if len(Admin.prev_message) > 1:
+        message = Admin.prev_message[0]
+        await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+        Admin.prev_message.pop(0)
     # await asyncio.sleep(seconds)
-    # with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
-    #     await message.delete()
+
+    # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+
+    seconds += 900
+
+    await asyncio.sleep(seconds)
+    with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
+        await message.delete()
 
 
 @dp.callback_query_handler(text="main")
@@ -83,7 +83,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_order), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    # await delete_message(message, 3600)
+    await delete_message(message, 3600)
 
 
 @dp.callback_query_handler(text="scum")
@@ -92,7 +92,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_scum), reply_markup=ToMain.inline_main,  parse_mode=types.ParseMode.HTML)
-    # await delete_message(message, 60)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="course")
@@ -102,7 +102,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_course), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    # await delete_message(message, 60)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="reviews")
@@ -112,7 +112,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_reviews), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
     # await asyncio.create_task(await delete_message(message, 60))
-    # await delete_message(message, 60)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="instruction")
@@ -122,7 +122,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_instruction), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    # await delete_message(message, 60)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="commission")
@@ -131,7 +131,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_commission), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    # await delete_message(message, 60)
+    await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="partner")
@@ -143,7 +143,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_partner), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    # await delete_message(message, 60)
+    await delete_message(message, 60)
 
 
 @dp.message_handler(state=Start.schet)
