@@ -4,7 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton,  InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 from config import BOT_TOKEN
-from keyboard import keyboard
+from keyboard import inlinekeyboard, Rasschet_Keyboard
 from states import Start
 from checker import checker
 
@@ -14,7 +14,7 @@ loop = asyncio.get_event_loop()
 
 
 curs = 12.9
-nacenka = 1500
+nacenka = 1000
 dostavka = 1300
 
 
@@ -27,13 +27,10 @@ async def start_command(message: types.Message, state: FSMContext):
     await message.answer_photo(open('src/img/Shapka.jpg', "rb"),
                                f"""
 🤠 Нихао, {firstname}!
-Мы прямые посредники Poizon.
-У нас свой склад в Китае, поэтому мы можем давать минимальную цену🔥
-И ещё очень много плюшек!
-Контакт для связи: @Getpoizon_manager
+Добро пожаловать в нашу команду GET POIZON
 
-<b><i>❗️Только оригинальная продукция</i></b>
-                               """, reply_markup=keyboard.kb_start, parse_mode=types.ParseMode.HTML)
+Что сделать для тебя?"
+                               """, reply_markup=inlinekeyboard.inline_start, parse_mode=types.ParseMode.HTML)
 
 
 @dp.message_handler(lambda message: message.text == "Связаться с оператором", state="*")
@@ -70,14 +67,37 @@ async def rasshet_itog(message: types.Message):
 #     await message.answer("Ок")
 
 
-@dp.message_handler(lambda message: message.text == "Расcчитать стоимость", state="*")
-async def rasshet(message: types.Message):
-    global user_id
-    user_id = message.from_user.id
-    firstname = message.from_user.first_name
-    await bot.send_message(message.from_user.id,
-                           text=(
-                               'Добро пожаловать в Get Poison. Введите стоимость '))
+@dp.callback_query_handler(text="calculate", state="*")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    await bot.send_photo(user_id, open('src/img/Shapka.jpg', "rb"),
+                         caption=(
+        ''' 
+Введите цену на товар в <b>ЮАНЯХ</b>🇨🇳
+и бот покажет цену с учётом доставки до склада в Москве
+Внимание! Выбирайте цену, которая <b>ЗАЧЕРКНУТА</b> и находится <b>СЛЕВА</b>.
+Система отображает скидки для первых покупателей. 
+
+<b>У нас нет этих скидок!</b> 
+
+                               '''), parse_mode=types.ParseMode.HTML)
+    await Start.schet.set()
+
+
+@dp.callback_query_handler(text="btn1", state="*")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    await bot.send_photo(user_id, open('src/img/Shapka.jpg', "rb"),
+                         caption=(
+        ''' 
+Введите цену на товар в <b>ЮАНЯХ</b>🇨🇳
+и бот покажет цену с учётом доставки до склада в Москве
+Внимание! Выбирайте цену, которая <b>ЗАЧЕРКНУТА</b> и находится <b>СЛЕВА</b>.
+Система отображает скидки для первых покупателей. 
+
+<b>У нас нет этих скидок!</b> 
+
+                               '''), parse_mode=types.ParseMode.HTML)
     await Start.schet.set()
 
 
@@ -101,7 +121,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 Стоимость включает: 
 Курс ¥ - {str(curs)}₽
 Доставка  {str(dostavka)}₽
-Комиссия нашего сервиса - {str(nacenka)}₽"""))
+Комиссия нашего сервиса - {str(nacenka)}₽"""), reply_markup=Rasschet_Keyboard.inline_rasschet)
             await state.finish()
 
 
