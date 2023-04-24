@@ -4,7 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton,  InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 from config import BOT_TOKEN
-from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard, ARasschet, AdminKeyboard
+from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard, ARasschet, AdminKeyboard, AMessages
 from states import Start
 from checker import checker
 from admin import Admin
@@ -194,6 +194,13 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
+    
+@dp.callback_query_handler(text="AMessages")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         "Выберите действие"), reply_markup=AMessages.inline_messages, parse_mode=types.ParseMode.HTML)
 
 
 @dp.callback_query_handler(text="ОбъявлениеКурса")

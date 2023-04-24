@@ -81,3 +81,30 @@ class ARasschet(InlineKeyboardMarkup):
     #     "Смена текста сообщений", callback_data='Доставка')
     inline_perechet.add(curs, nacenka1, nacenka2, nacenka3,
                         nacenka4, nacenka5)
+
+class AMessages(InlineKeyboardMarkup):
+    inline_messages = InlineKeyboardMarkup(resize_keyboard=True,
+                                           one_time_keyboard=True, row_width=1)
+
+    message_hello = InlineKeyboardButton(
+        "Смена текста приветственного сообщения", callback_data='Приветственное сообщение')
+    message_rasschet = InlineKeyboardButton(
+        "Смена текста сообщения перед расчетом", callback_data='Сообщение перед расчетом')
+    message_order = InlineKeyboardButton(
+        "Смена текста оформить заказ", callback_data='Оформить заказ')
+    message_scum = InlineKeyboardButton(
+        "Смена текста про скам ", callback_data='Скам')
+    message_course = InlineKeyboardButton(
+        "Смена текста про курс", callback_data='Курс')
+    message_commission = InlineKeyboardButton(
+        "Смена текста наша комиссия", callback_data='Комиссия')
+    message_reviews = InlineKeyboardButton(
+        "Смена текста отзывы", callback_data='Отзывы')
+    message_instruction = InlineKeyboardButton(
+        "Смена текста инструкция ", callback_data='Инструкция')
+    message_partner = InlineKeyboardButton(
+        "Смена текста оптовые заказы и сотрудничество с нами", callback_data='Сотрудничество')
+    message_chet = InlineKeyboardButton(
+        "Смена текста оптовые заказы и сотрудничество с нами", callback_data='Расчет')
+    inline_messages.add(message_hello, message_rasschet,message_order,message_scum,message_course,
+                        message_commission,message_reviews,message_instruction,message_partner,message_chet)
