@@ -66,7 +66,7 @@ class ARasschet(InlineKeyboardMarkup):
                                            one_time_keyboard=True, row_width=1)
 
     curs = InlineKeyboardButton(
-        "Смена данных для рассчёта", callback_data='Объявление курса')
+        "Смена данных для рассчёта", callback_data='ОбъявлениеКурса')
     nacenka1 = InlineKeyboardButton(
         "Пересмотр наценки стоимости товара меньше 200 юаней", callback_data='Объявление наценки 1')
     nacenka2 = InlineKeyboardButton(

@@ -7,7 +7,7 @@ class Admin():
     nacenka5 = 3000
     prev_message = []
 
-    message_hello = f"""
+    message_hello = """
 🤠 Нихао, {0}!
 Добро пожаловать в нашу команду GET POIZON
 
