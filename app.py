@@ -339,20 +339,20 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"На данный момент наценка стоимости товара больше 1500 юаней = {Admin.nacenka5}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
-    await Start.privet.set()
+                                         f"""На данный момент текст приветствия такой:\n '{Admin.message_hello}'\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_hello.set()
 
 
-@dp.message_handler(state=Start.smenanacenki5)
+@dp.message_handler(state=Start.smena_hello)
 async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
-        data['smena'] = int(message.text)
+        data['smena'] = str(message.text)
 
-        Admin.nacenka5 = data['smena']
+        Admin.message_hello = data['smena']
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена наценки на {Admin.nacenka5}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на {Admin.message_hello}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
