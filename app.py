@@ -176,8 +176,8 @@ async def fault(message: types.Message, state: FSMContext):
         await fault.delete()
 
 
-@dp.callback_query_handler(text="Admin")
-async def adminka(callback: types.CallbackQuery, state=FSMContext):
+# @dp.callback_query_handler(text="Admin")
+# async def adminka(callback: types.CallbackQuery, state=FSMContext):
     
 
 if __name__ == "__main__":
