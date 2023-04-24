@@ -105,6 +105,6 @@ class AMessages(InlineKeyboardMarkup):
     message_partner = InlineKeyboardButton(
         "Смена текста оптовые заказы и сотрудничество с нами", callback_data='Сотрудничество')
     message_chet = InlineKeyboardButton(
-        "Смена текста оптовые заказы и сотрудничество с нами", callback_data='Расчет')
+        "Смена текста выводимого при расчете", callback_data='Расчет')
     inline_messages.add(message_hello, message_rasschet,message_order,message_scum,message_course,
                         message_commission,message_reviews,message_instruction,message_partner,message_chet)

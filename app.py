@@ -4,7 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton,  InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 from config import BOT_TOKEN
-from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard, ARasschet, AdminKeyboard
+from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard, ARasschet, AdminKeyboard, AMessages
 from states import Start
 from checker import checker
 from admin import Admin
@@ -186,6 +186,13 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          "Выберите действие: "), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
+    
+@dp.callback_query_handler(text="AMessages")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         "Выберите действие: "), reply_markup=AMessages.inline_messages, parse_mode=types.ParseMode.HTML)
 
 
 @dp.callback_query_handler(text="ОбъявлениеКурса")
@@ -324,6 +331,31 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
                                              f"Произошла замена наценки на {Admin.nacenka5}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
+
+
+
+@dp.callback_query_handler(text="Приветственное сообщение")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"На данный момент наценка стоимости товара больше 1500 юаней = {Admin.nacenka5}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenanacenki5.set()
+
+
+@dp.message_handler(state=Start.smenanacenki5)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = int(message.text)
+
+        Admin.nacenka5 = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена наценки на {Admin.nacenka5}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
 
 
 @dp.message_handler(content_types=['text'])
