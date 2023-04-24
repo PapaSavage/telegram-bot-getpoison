@@ -167,9 +167,10 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
                 itog = stoim_cny * Admin.curs + Admin.nacenka4
             else:
                 itog = stoim_cny * Admin.curs + Admin.nacenka5
-            await bot.send_message(message.from_user.id,
+            message = await bot.send_message(message.from_user.id,
                                    text=(
                                        Admin.message_chet.format(str(round(itog)))), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
+            await delete_message(message, 60)
             await state.finish()
 
 
