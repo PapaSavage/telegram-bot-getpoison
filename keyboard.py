@@ -48,3 +48,14 @@ class ToMain(InlineKeyboardMarkup):
 
     inline = InlineKeyboardButton("Главная", callback_data='main')
     inline_main.add(inline)
+
+
+class Admin(InlineKeyboardMarkup):
+    inline_main = InlineKeyboardMarkup(resize_keyboard=True,
+                                       one_time_keyboard=True, row_width=2)
+
+    inline_calc = InlineKeyboardButton(
+        "Смена данных для рассчёта", callback_data='ARasschet')
+    inline_message = InlineKeyboardButton(
+        "Смена текста сообщений", callback_data='AMessages')
+    inline_main.add(inline_calc, inline_message)
