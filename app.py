@@ -23,6 +23,10 @@ nacenka3 = 2000
 nacenka4 = 2500
 nacenka5 = 3000
 dostavka = 1300
+prev_message = []
+
+# Каждое отправление сообщения теперь надо записать в переменную g = bot.send и прочие
+# Example - prev_message.append()
 
 
 async def delete_message(message: types.Message, seconds: int = 0):
@@ -30,7 +34,7 @@ async def delete_message(message: types.Message, seconds: int = 0):
 
     await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
 
-    seconds += 3600
+    seconds += 900
 
     await asyncio.sleep(seconds)
     with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
