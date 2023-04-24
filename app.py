@@ -4,7 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton,  InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 from config import BOT_TOKEN
-from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard
+from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard, AdminKeyboard, ARasschet
 from states import Start
 from checker import checker
 from admin import Admin
@@ -178,7 +178,17 @@ async def fault(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="Admin")
 async def adminka(callback: types.CallbackQuery, state=FSMContext):
-    
+    bot.send_message(callback.from_user.id, """Приветствую вас в настройках бота
+                     Выберите то, что хотите отредактировать""", reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+
+@dp.callback_query_handler(text="ARasschet")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
+
 
 if __name__ == "__main__":
     executor.start_polling(
