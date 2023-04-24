@@ -311,4 +311,4 @@ async def start_command(message: types.Message, state: FSMContext):
 
 if __name__ == "__main__":
     executor.start_polling(
-        dispatcher=dp, skip_updates=True, reply_markup=StartKeyboard.kb_start)
+        dispatcher=dp, skip_updates=True)
