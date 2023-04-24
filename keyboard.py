@@ -20,27 +20,28 @@ class inlinekeyboard(InlineKeyboardMarkup):
     inline_b1_start = InlineKeyboardButton(
         "Кулькулятор цены", callback_data='calculate')
     inline_b2_start = InlineKeyboardButton(
-        "💎Оформить заказ", callback_data='btn2')
-    inline_b3_start = InlineKeyboardButton("Заказать", callback_data='btn3')
-    inline_b4_start = InlineKeyboardButton("Про скам🙈", callback_data='btn4')
-    inline_b5_start = InlineKeyboardButton("Про курс 💹", callback_data='btn5')
-    inline_b6_start = InlineKeyboardButton("⭐️Отзывы", callback_data='btn6')
+        "💎Оформить заказ", callback_data='order')
+    inline_b3_start = InlineKeyboardButton("Про скам🙈", callback_data='scum')
+    inline_b4_start = InlineKeyboardButton(
+        "Про курс 💹", callback_data='course')
+    inline_b5_start = InlineKeyboardButton("⭐️Отзывы", callback_data='reviews')
+    inline_b6_start = InlineKeyboardButton(
+        "🌍 Инструкция по POIZON", callback_data='instruction', row=1)
     inline_b7_start = InlineKeyboardButton(
-        "🌍 Инструкция по POIZON", callback_data='btn7')
+        "🌚 Наша комиссия, курс", callback_data='commission', row=1)
     inline_b8_start = InlineKeyboardButton(
-        "🌚 Наша комиссия, курс", callback_data='btn8')
-    inline_b9_start = InlineKeyboardButton(
-        "⭕️ Оптовые заказы и сотрудничество с нами", callback_data='btn9')
+        "⭕️ Оптовые заказы и сотрудничество с нами", callback_data='partner', row=1)
     inline_start.add(inline_b1_start, inline_b2_start, inline_b3_start,
-                     inline_b4_start, inline_b5_start, inline_b6_start, inline_b7_start, inline_b8_start, inline_b9_start)
+                     inline_b4_start, inline_b5_start, inline_b6_start, inline_b7_start, inline_b8_start)
 
 
 class Rasschet_Keyboard(InlineKeyboardMarkup):
     inline_rasschet = InlineKeyboardMarkup(resize_keyboard=True,
-                                           one_time_keyboard=True, row_width=1)
+                                           one_time_keyboard=True, row_width=2)
     inline_b1_rasschet = InlineKeyboardButton(
-        "Ещё расчёт!", callback_data='calculate')
-    inline_b2_rasschet = InlineKeyboardButton("Заказать", callback_data='btn2')
+        "Ещё расчёт!🔄", callback_data='calculate')
+    inline_b2_rasschet = InlineKeyboardButton(
+        "Заказать!👑", callback_data='order')
     inline_b3_rasschet = InlineKeyboardButton("Главная", callback_data='main')
     inline_rasschet.add(inline_b1_rasschet,
                         inline_b2_rasschet, inline_b3_rasschet)
