@@ -549,6 +549,30 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
         await state.finish()
 
 
+@dp.callback_query_handler(text="Расчет")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"""На данный момент текст выводимый при расчете:\n '{Admin.message_chet}'\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_chet.set()
+
+
+@dp.message_handler(state=Start.smena_chet)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = str(message.text)
+
+        Admin.message_chet = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена текста на {Admin.message_chet}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+
 @dp.message_handler(content_types=['text'])
 async def fault(message: types.Message, state: FSMContext):
     fault = await message.answer("Выберите кнопку из предложенных)")
