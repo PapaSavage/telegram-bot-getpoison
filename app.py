@@ -339,7 +339,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст приветствия такой:\n '{Admin.message_hello}'\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст приветствия такой:\n {Admin.message_hello}\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_hello.set()
 
 
@@ -362,7 +362,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст сообщения перед расчетом:\n '{Admin.message_rasschet}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст сообщения перед расчетом:\n {Admin.message_rasschet}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_rasschet.set()
 
 
@@ -386,7 +386,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст оформления заказа:\n '{Admin.message_order}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст оформления заказа:\n {Admin.message_order}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_order.set()
 
 
@@ -409,7 +409,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст про скам:\n '{Admin.message_scum}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст про скам:\n {Admin.message_scum}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_scum.set()
 
 
@@ -432,7 +432,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст про курс:\n '{Admin.message_course}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст про курс:\n {Admin.message_course}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_course.set()
 
 
@@ -454,7 +454,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст наша комиссия:\n '{Admin.message_commission}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст наша комиссия:\n {Admin.message_commission}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_commission.set()
 
 
@@ -477,7 +477,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст отзывы:\n '{Admin.message_reviews}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст отзывы:\n {Admin.message_reviews}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_reviews.set()
 
 
@@ -504,7 +504,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст Инструкция:\n '{Admin.message_instruction}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст Инструкция:\n {Admin.message_instruction}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_instruction.set()
 
 
@@ -531,7 +531,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст Сотрудничество:\n '{Admin.message_partner}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст Сотрудничество:\n {Admin.message_partner}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_partner.set()
 
 
@@ -554,7 +554,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст выводимый при расчете:\n '{Admin.message_chet}'\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст выводимый при расчете:\n {Admin.message_chet}\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
     await Start.smena_chet.set()
 
 
