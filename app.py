@@ -472,6 +472,83 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
         await state.finish()
 
 
+@dp.callback_query_handler(text="Отзывы")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"""На данный момент текст отзывы:\n '{Admin.message_reviews}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_reviews.set()
+
+
+@dp.message_handler(state=Start.smena_reviews)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = str(message.text)
+
+        Admin.message_reviews = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена текста на {Admin.message_reviews}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+
+
+
+
+@dp.callback_query_handler(text="Инструкция")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"""На данный момент текст Инструкция:\n '{Admin.message_instruction}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_instruction.set()
+
+
+@dp.message_handler(state=Start.smena_instruction)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = str(message.text)
+
+        Admin.message_instruction = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена текста на {Admin.message_instruction}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+
+
+
+
+@dp.callback_query_handler(text="Сотрудничество")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"""На данный момент текст Сотрудничество:\n '{Admin.message_partner}'\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+    await Start.smena_partner.set()
+
+
+@dp.message_handler(state=Start.smena_partner)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = str(message.text)
+
+        Admin.message_partner = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена текста на {Admin.message_partner}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
 @dp.message_handler(content_types=['text'])
 async def fault(message: types.Message, state: FSMContext):
     fault = await message.answer("Выберите кнопку из предложенных)")
