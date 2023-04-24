@@ -5,7 +5,6 @@ class Admin():
     nacenka3 = 2000
     nacenka4 = 2500
     nacenka5 = 3000
-    dostavka = 1300
     prev_message = []
 
     message_hello = f"""
