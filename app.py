@@ -21,20 +21,21 @@ loop = asyncio.get_event_loop()
 
 
 async def delete_message(message: types.Message, seconds: int = 0):
-    Admin.prev_message.append(message)
-    if len(Admin.prev_message) > 1:
-        message = Admin.prev_message[0]
-        await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-        Admin.prev_message.pop(0)
+    pass
+    # Admin.prev_message.append(message)
+    # if len(Admin.prev_message) > 1:
+    #     message = Admin.prev_message[0]
+    #     await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+    #     Admin.prev_message.pop(0)
+    # # await asyncio.sleep(seconds)
+
+    # # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+
+    # seconds += 900
+
     # await asyncio.sleep(seconds)
-
-    # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-
-    seconds += 900
-
-    await asyncio.sleep(seconds)
-    with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
-        await message.delete()
+    # with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
+    #     await message.delete()
 
 
 @dp.callback_query_handler(text="main")
@@ -73,7 +74,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_photo(callback.from_user.id, open('src/img/Shapka.jpg', "rb"),
                                    caption=(Admin.message_rasschet), parse_mode=types.ParseMode.HTML)
     await Start.schet.set()
-    await asyncio.create_task(await delete_message(message, 3600))
+    # await asyncio.create_task(await delete_message(message, 3600))
 
 
 @dp.callback_query_handler(text="order")
@@ -82,7 +83,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_order), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    await delete_message(message, 3600)
+    # await delete_message(message, 3600)
 
 
 @dp.callback_query_handler(text="scum")
@@ -91,7 +92,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_scum), reply_markup=ToMain.inline_main,  parse_mode=types.ParseMode.HTML)
-    await delete_message(message, 60)
+    # await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="course")
@@ -101,7 +102,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_course), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    await delete_message(message, 60)
+    # await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="reviews")
@@ -111,7 +112,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_reviews), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
     # await asyncio.create_task(await delete_message(message, 60))
-    await delete_message(message, 60)
+    # await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="instruction")
@@ -121,7 +122,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_instruction), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    await delete_message(message, 60)
+    # await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="commission")
@@ -130,7 +131,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_commission), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    await delete_message(message, 60)
+    # await delete_message(message, 60)
 
 
 @dp.callback_query_handler(text="partner")
@@ -142,7 +143,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_partner), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    await delete_message(message, 60)
+    # await delete_message(message, 60)
 
 
 @dp.message_handler(state=Start.schet)
@@ -170,22 +171,13 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
             message = await bot.send_message(message.from_user.id,
                                              text=(
                                                  Admin.message_chet.format(str(round(itog)))), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
-            await delete_message(message, 60)
+            # await delete_message(message, 60)
             await state.finish()
 
 
-@dp.message_handler(content_types=['text'])
-async def fault(message: types.Message, state: FSMContext):
-    fault = await message.answer("Выберите кнопку из предложенных)")
-    await asyncio.sleep(25)
-    with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
-        await fault.delete()
-
-
-@dp.callback_query_handler(lambda message: message.text == "Admin")
+@dp.message_handler(lambda message: message.text == "Admin")
 async def adminka(callback: types.CallbackQuery, state=FSMContext):
-    bot.send_message(callback.from_user.id, """Приветствую вас в настройках бота
-                     Выберите то, что хотите отредактировать""", reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+    await bot.send_message(callback.from_user.id, """Приветствую вас в настройках бота\n Выберите то, что хотите отредактировать""", reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
 
 @dp.callback_query_handler(text="ARasschet")
@@ -194,13 +186,6 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
-    
-@dp.callback_query_handler(text="AMessages")
-async def rasshet(callback: types.CallbackQuery, state=FSMContext):
-
-    message = await bot.send_message(callback.from_user.id,
-                                     text=(
-                                         "Выберите действие"), reply_markup=AMessages.inline_messages, parse_mode=types.ParseMode.HTML)
 
 
 @dp.callback_query_handler(text="ОбъявлениеКурса")
@@ -208,22 +193,145 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"На данный момент курс равен = {Admin.curs}, введите желанный курс, для записи числа с дробью используйте точку. Если желаете оставить текущий, введите его повторно)"))
+                                         f"На данный момент курс равен = {Admin.curs}, введите желанный курс, для записи числа используйте только точки и цифры. Если желаете оставить текущий, введите его повторно)"))
     await Start.smenacursa.set()
 
 
 @dp.message_handler(state=Start.smenacursa)
 async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
-        data[''] = message.text
+        data['course'] = float(message.text)
+
+        Admin.curs = data['course']
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена курса на {Admin.curs}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
-        await delete_message(message, 60)
         await state.finish()
 
+
+@dp.callback_query_handler(text="ОбъявлениеНаценки1")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"На данный момент наценка стоимости товара меньше 200 юаней = {Admin.nacenka1}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenanacenki1.set()
+
+
+@dp.message_handler(state=Start.smenanacenki1)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = int(message.text)
+
+        Admin.nacenka1 = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена наценки на {Admin.nacenka1}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+@dp.callback_query_handler(text="ОбъявлениеНаценки2")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"На данный момент наценка стоимости товара больше 500 юаней = {Admin.nacenka2}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenanacenki2.set()
+
+
+@dp.message_handler(state=Start.smenanacenki2)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = int(message.text)
+
+        Admin.nacenka2 = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена наценки на {Admin.nacenka2}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+@dp.callback_query_handler(text="ОбъявлениеНаценки3")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"На данный момент наценка стоимости товара больше 1000 юаней = {Admin.nacenka3}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenanacenki3.set()
+
+
+@dp.message_handler(state=Start.smenanacenki3)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = int(message.text)
+
+        Admin.nacenka3 = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена наценки на {Admin.nacenka3}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+@dp.callback_query_handler(text="ОбъявлениеНаценки4")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"На данный момент наценка стоимости товара больше 1500 юаней = {Admin.nacenka4}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenanacenki4.set()
+
+
+@dp.message_handler(state=Start.smenanacenki4)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = int(message.text)
+
+        Admin.nacenka4 = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена наценки на {Admin.nacenka4}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+@dp.callback_query_handler(text="ОбъявлениеНаценки5")
+async def rasshet(callback: types.CallbackQuery, state=FSMContext):
+
+    message = await bot.send_message(callback.from_user.id,
+                                     text=(
+                                         f"На данный момент наценка стоимости товара больше 1500 юаней = {Admin.nacenka5}, введите желанную наценку, для записи числа используйте цифры. Если желаете оставить текущий, введите его повторно)"))
+    await Start.smenanacenki5.set()
+
+
+@dp.message_handler(state=Start.smenanacenki5)
+async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
+    async with state.proxy() as data:
+        data['smena'] = int(message.text)
+
+        Admin.nacenka5 = data['smena']
+
+        message = await bot.send_message(message.from_user.id,
+                                         text=(
+                                             f"Произошла замена наценки на {Admin.nacenka5}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+
+        await state.finish()
+
+
+@dp.message_handler(content_types=['text'])
+async def fault(message: types.Message, state: FSMContext):
+    fault = await message.answer("Выберите кнопку из предложенных)")
+    await asyncio.sleep(25)
+    with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
+        await fault.delete()
 
 if __name__ == "__main__":
     executor.start_polling(

@@ -52,13 +52,14 @@ class ToMain(InlineKeyboardMarkup):
 
 class AdminKeyboard(InlineKeyboardMarkup):
     inline_Admin = InlineKeyboardMarkup(resize_keyboard=True,
-                                        one_time_keyboard=True, row_width=2)
+                                        one_time_keyboard=True, row_width=1)
 
     inline_calc = InlineKeyboardButton(
         "Смена данных для рассчёта", callback_data='ARasschet')
     inline_message = InlineKeyboardButton(
         "Смена текста сообщений", callback_data='AMessages')
-    inline_Admin.add(inline_calc, inline_message)
+    inline = InlineKeyboardButton("Главная", callback_data='main')
+    inline_Admin.add(inline_calc, inline_message, inline)
 
 
 class ARasschet(InlineKeyboardMarkup):
@@ -66,17 +67,17 @@ class ARasschet(InlineKeyboardMarkup):
                                            one_time_keyboard=True, row_width=1)
 
     curs = InlineKeyboardButton(
-        "Смена данных для рассчёта", callback_data='ОбъявлениеКурса')
+        "Смена курса", callback_data='ОбъявлениеКурса')
     nacenka1 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара меньше 200 юаней", callback_data='Объявление наценки 1')
+        "Пересмотр наценки стоимости товара меньше 200 юаней", callback_data='ОбъявлениеНаценки1')
     nacenka2 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 500 юаней", callback_data='Объявление наценки 2')
+        "Пересмотр наценки стоимости товара больше 500 юаней", callback_data='ОбъявлениеНаценки2')
     nacenka3 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 1000 юаней", callback_data='Объявление наценки 3')
+        "Пересмотр наценки стоимости товара больше 1000 юаней", callback_data='ОбъявлениеНаценки3')
     nacenka4 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 1500 юаней", callback_data='Объявление наценки 4')
+        "Пересмотр наценки стоимости товара больше 1500 юаней", callback_data='ОбъявлениеНаценки4')
     nacenka5 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 2000 юаней", callback_data='Объявление наценки 5')
+        "Пересмотр наценки стоимости товара больше 2000 юаней", callback_data='ОбъявлениеНаценки5')
     # dostavka = InlineKeyboardButton(
     #     "Смена текста сообщений", callback_data='Доставка')
     inline_perechet.add(curs, nacenka1, nacenka2, nacenka3,
