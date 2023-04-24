@@ -176,11 +176,6 @@ async def fault(message: types.Message, state: FSMContext):
         await fault.delete()
 
 
-<<<<<<< HEAD
-# @dp.callback_query_handler(text="Admin")
-# async def adminka(callback: types.CallbackQuery, state=FSMContext):
-    
-=======
 @dp.callback_query_handler(text="Admin")
 async def adminka(callback: types.CallbackQuery, state=FSMContext):
     bot.send_message(callback.from_user.id, """Приветствую вас в настройках бота
@@ -194,7 +189,6 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          "Выберите действие"), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
 
->>>>>>> 51042bc2817eb33b0c8fed01528a6179afc33c27
 
 if __name__ == "__main__":
     executor.start_polling(
