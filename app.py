@@ -4,7 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton,  InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 from config import BOT_TOKEN
-from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard, AdminKeyboard, ARasschet
+from keyboard import inlinekeyboard, Rasschet_Keyboard, ToMain, StartKeyboard
 from states import Start
 from checker import checker
 from admin import Admin
@@ -21,9 +21,14 @@ loop = asyncio.get_event_loop()
 
 
 async def delete_message(message: types.Message, seconds: int = 0):
-    await asyncio.sleep(seconds)
+    Admin.prev_message.append(message)
+    if len(Admin.prev_message) > 1:
+        message = Admin.prev_message[0]
+        await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+        Admin.prev_message.pop(0)
+    # await asyncio.sleep(seconds)
 
-    await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+    # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
 
     seconds += 900
 
@@ -162,9 +167,10 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
                 itog = stoim_cny * Admin.curs + Admin.nacenka4
             else:
                 itog = stoim_cny * Admin.curs + Admin.nacenka5
-            await bot.send_message(message.from_user.id,
-                                   text=(
-                                       Admin.message_chet.format(str(round(itog)))), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
+            message = await bot.send_message(message.from_user.id,
+                                             text=(
+                                                 Admin.message_chet.format(str(round(itog)))), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
+            await delete_message(message, 60)
             await state.finish()
 
 
