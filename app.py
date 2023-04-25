@@ -21,21 +21,25 @@ loop = asyncio.get_event_loop()
 
 
 async def delete_message(message: types.Message, seconds: int = 0):
-    pass
-    Admin.prev_message.append(message)
-    if len(Admin.prev_message) > 1:
-        message = Admin.prev_message[0]
-        await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-        Admin.prev_message.pop(0)
+
+    try:
+
+        Admin.prev_message.append(message)
+        if len(Admin.prev_message) > 1:
+            message = Admin.prev_message.pop(0)
+            await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
+
     # await asyncio.sleep(seconds)
 
     # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
 
-    seconds += 900
+        seconds += 900
 
-    await asyncio.sleep(seconds)
-    with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
-        await message.delete()
+        await asyncio.sleep(seconds)
+        with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
+            await message.delete()
+    except:
+        pass
 
 
 @dp.callback_query_handler(text="main")
@@ -71,7 +75,7 @@ async def start_command(message: types.Message, state: FSMContext):
 
 @ dp.callback_query_handler(text="calculate")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
-    message = await bot.send_photo(callback.from_user.id, open('src/img/Shapka.jpg', "rb"),
+    message = await bot.send_photo(callback.from_user.id, open('src/img/price.jpg', "rb"),
                                    caption=(Admin.message_rasschet), parse_mode=types.ParseMode.HTML)
     await Start.schet.set()
     # await asyncio.create_task(await delete_message(message, 3600))
@@ -171,8 +175,9 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
             message = await bot.send_message(message.from_user.id,
                                              text=(
                                                  Admin.message_chet.format(str(round(itog)))), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
-            # await delete_message(message, 60)
+
             await state.finish()
+            await delete_message(message, 60)
 
 
 @dp.message_handler(lambda message: message.text == "Admin")
@@ -186,7 +191,8 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          "Выберите действие: "), reply_markup=ARasschet.inline_perechet, parse_mode=types.ParseMode.HTML)
-    
+
+
 @dp.callback_query_handler(text="AMessages")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
@@ -213,7 +219,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена курса на {Admin.curs}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена курса на\n {Admin.curs}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -236,7 +242,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена наценки на {Admin.nacenka1}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена наценки на\n {Admin.nacenka1}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -259,7 +265,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена наценки на {Admin.nacenka2}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена наценки на\n {Admin.nacenka2}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -282,7 +288,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена наценки на {Admin.nacenka3}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена наценки на\n {Admin.nacenka3}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -305,7 +311,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена наценки на {Admin.nacenka4}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена наценки на\n {Admin.nacenka4}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -328,10 +334,9 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена наценки на {Admin.nacenka5}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена наценки на\n {Admin.nacenka5}. Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
-
 
 
 @dp.callback_query_handler(text="Приветственное сообщение")
@@ -339,7 +344,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст приветствия такой:\n {Admin.message_hello}\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст приветствия такой:\n {Admin.message_hello}\n введите нужный вам текст. <b>Не забывайте вводить {0}</b> Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_hello.set()
 
 
@@ -352,7 +357,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_hello}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_hello}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -362,7 +367,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст сообщения перед расчетом:\n {Admin.message_rasschet}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст сообщения перед расчетом:\n {Admin.message_rasschet}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_rasschet.set()
 
 
@@ -375,10 +380,9 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_rasschet}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_rasschet}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
-
 
 
 @dp.callback_query_handler(text="Оформить заказ")
@@ -386,7 +390,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст оформления заказа:\n {Admin.message_order}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст оформления заказа:\n {Admin.message_order}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_order.set()
 
 
@@ -399,7 +403,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_order}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_order}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -409,7 +413,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст про скам:\n {Admin.message_scum}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст про скам:\n {Admin.message_scum}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_scum.set()
 
 
@@ -422,7 +426,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_scum}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_scum}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -432,7 +436,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст про курс:\n {Admin.message_course}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст про курс:\n {Admin.message_course}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_course.set()
 
 
@@ -445,16 +449,17 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_course}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_course}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
+
 
 @dp.callback_query_handler(text="Комиссия")
 async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст наша комиссия:\n {Admin.message_commission}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст наша комиссия:\n {Admin.message_commission}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_commission.set()
 
 
@@ -467,7 +472,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_commission}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_commission}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -477,7 +482,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст отзывы:\n {Admin.message_reviews}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст отзывы:\n {Admin.message_reviews}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_reviews.set()
 
 
@@ -490,13 +495,9 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_reviews}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_reviews}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
-
-
-
-
 
 
 @dp.callback_query_handler(text="Инструкция")
@@ -504,7 +505,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст Инструкция:\n {Admin.message_instruction}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст Инструкция:\n {Admin.message_instruction}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_instruction.set()
 
 
@@ -517,13 +518,9 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_instruction}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_instruction}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
-
-
-
-
 
 
 @dp.callback_query_handler(text="Сотрудничество")
@@ -531,7 +528,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст Сотрудничество:\n {Admin.message_partner}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст Сотрудничество:\n {Admin.message_partner}\n введите нужный вам текст. Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_partner.set()
 
 
@@ -544,7 +541,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_partner}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_partner}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
 
@@ -554,7 +551,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
 
     message = await bot.send_message(callback.from_user.id,
                                      text=(
-                                         f"""На данный момент текст выводимый при расчете:\n {Admin.message_chet}\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""),parse_mode=types.ParseMode.HTML)
+                                         f"""На данный момент текст выводимый при расчете:\n {Admin.message_chet}\n введите нужный вам текст. <b>Не забывайте вводить "{0}"</b> Если желаете оставить текущий, введите его повторно)"""), parse_mode=types.ParseMode.HTML)
     await Start.smena_chet.set()
 
 
@@ -567,10 +564,9 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
 
         message = await bot.send_message(message.from_user.id,
                                          text=(
-                                             f"Произошла замена текста на {Admin.message_chet}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
+                                             f"Произошла замена текста на\n {Admin.message_chet}.\n Выберите действие: "), reply_markup=AdminKeyboard.inline_Admin, parse_mode=types.ParseMode.HTML)
 
         await state.finish()
-
 
 
 @dp.message_handler(content_types=['text'])
