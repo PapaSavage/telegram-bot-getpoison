@@ -69,19 +69,21 @@ class ARasschet(InlineKeyboardMarkup):
     curs = InlineKeyboardButton(
         "Смена курса", callback_data='ОбъявлениеКурса')
     nacenka1 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара меньше 200 юаней", callback_data='ОбъявлениеНаценки1')
+        "Наценка стоимости товара меньше 200 юаней", callback_data='ОбъявлениеНаценки1')
     nacenka2 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 500 юаней", callback_data='ОбъявлениеНаценки2')
+        "Наценка стоимости товара больше 500 юаней", callback_data='ОбъявлениеНаценки2')
     nacenka3 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 1000 юаней", callback_data='ОбъявлениеНаценки3')
+        "Наценка стоимости товара больше 1000 юаней", callback_data='ОбъявлениеНаценки3')
     nacenka4 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 1500 юаней", callback_data='ОбъявлениеНаценки4')
+        "Наценка стоимости товара больше 1500 юаней", callback_data='ОбъявлениеНаценки4')
     nacenka5 = InlineKeyboardButton(
-        "Пересмотр наценки стоимости товара больше 2000 юаней", callback_data='ОбъявлениеНаценки5')
+        "Наценка стоимости товара больше 2000 юаней", callback_data='ОбъявлениеНаценки5')
     # dostavka = InlineKeyboardButton(
     #     "Смена текста сообщений", callback_data='Доставка')
     inline_perechet.add(curs, nacenka1, nacenka2, nacenka3,
                         nacenka4, nacenka5)
+
+
 class AMessages(InlineKeyboardMarkup):
     inline_messages = InlineKeyboardMarkup(resize_keyboard=True,
                                            one_time_keyboard=True, row_width=1)
@@ -106,5 +108,5 @@ class AMessages(InlineKeyboardMarkup):
         "Смена текста оптовые заказы и сотрудничество с нами", callback_data='Сотрудничество')
     message_chet = InlineKeyboardButton(
         "Смена текста выводимого при расчете", callback_data='Расчет')
-    inline_messages.add(message_hello, message_rasschet,message_order,message_scum,message_course,
-                        message_commission,message_reviews,message_instruction,message_partner,message_chet)
+    inline_messages.add(message_hello, message_rasschet, message_order, message_scum, message_course,
+                        message_commission, message_reviews, message_instruction, message_partner, message_chet)
