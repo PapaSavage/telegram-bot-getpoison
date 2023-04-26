@@ -26,7 +26,7 @@ async def delete_message(message: types.Message, seconds: int = 0):
 
         Admin.prev_message.append(message)
         if len(Admin.prev_message) > 1:
-            message = Admin.prev_message.pop(0)
+            message = Admin.prev_message.pop(-2)
             await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
 
     # await asyncio.sleep(seconds)
