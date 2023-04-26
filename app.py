@@ -20,7 +20,7 @@ loop = asyncio.get_event_loop()
 # Example - prev_message.append()
 
 
-async def delete_message(message: types.Message, seconds: int = 0):
+async def delete_message(message: types.Message):
 
     try:
 
@@ -28,16 +28,6 @@ async def delete_message(message: types.Message, seconds: int = 0):
         if len(Admin.prev_message) > 1:
             message = Admin.prev_message.pop(-2)
             await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-
-    # await asyncio.sleep(seconds)
-
-    # await bot.edit_message_reply_markup(message.chat.id, message.message_id, reply_markup=None)
-
-        seconds += 900
-
-        await asyncio.sleep(seconds)
-        with suppress(MessageCantBeDeleted, MessageToDeleteNotFound):
-            await message.delete()
     except:
         pass
 
@@ -78,7 +68,6 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_photo(callback.from_user.id, open('src/img/price.jpg', "rb"),
                                    caption=(Admin.message_rasschet), parse_mode=types.ParseMode.HTML)
     await Start.schet.set()
-    # await asyncio.create_task(await delete_message(message, 3600))
 
 
 @dp.callback_query_handler(text="order")
@@ -87,7 +76,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_order), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    await delete_message(message, 3600)
+    await delete_message(message)
 
 
 @dp.callback_query_handler(text="scum")
@@ -96,7 +85,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_scum), reply_markup=ToMain.inline_main,  parse_mode=types.ParseMode.HTML)
-    await delete_message(message, 60)
+    await delete_message(message)
 
 
 @dp.callback_query_handler(text="course")
@@ -106,7 +95,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_course), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    await delete_message(message, 60)
+    await delete_message(message)
 
 
 @dp.callback_query_handler(text="reviews")
@@ -115,8 +104,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_reviews), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    # await asyncio.create_task(await delete_message(message, 60))
-    await delete_message(message, 60)
+    await delete_message(message)
 
 
 @dp.callback_query_handler(text="instruction")
@@ -126,7 +114,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_instruction), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    await delete_message(message, 60)
+    await delete_message(message)
 
 
 @dp.callback_query_handler(text="commission")
@@ -135,7 +123,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
     message = await bot.send_message(callback.from_user.id,
                                      text=(
                                          Admin.message_commission), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
-    await delete_message(message, 60)
+    await delete_message(message)
 
 
 @dp.callback_query_handler(text="partner")
@@ -147,7 +135,7 @@ async def rasshet(callback: types.CallbackQuery, state=FSMContext):
                                      text=(
                                          Admin.message_partner), reply_markup=ToMain.inline_main, parse_mode=types.ParseMode.HTML)
 
-    await delete_message(message, 60)
+    await delete_message(message)
 
 
 @dp.message_handler(state=Start.schet)
@@ -177,7 +165,7 @@ async def rasshet_itog(message: types.Message, state: FSMContext) -> None:
                                                  Admin.message_chet.format(str(round(itog)))), reply_markup=Rasschet_Keyboard.inline_rasschet, parse_mode=types.ParseMode.HTML)
 
             await state.finish()
-            await delete_message(message, 60)
+            await delete_message(message)
 
 
 @dp.message_handler(content_types=['text'])
